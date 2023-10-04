@@ -1,12 +1,10 @@
-// sk_test_51HWLYSI7H6155Bk9NWsrJOr54TLJcgi79EdUHWu3hR9MOfELWKSekum2UJr8AdCLKiZtWpLSQyHM1BXzFRlLtWLg00UtIAKYaz
 // Coffee: price_1NvAJqI7H6155Bk9EBBk3uJm
 // Sunglasses: price_1NvAKuI7H6155Bk94MnzT6mh
 // Camera: price_1NvALmI7H6155Bk9mBScQ27W
+dotenv.config();
 const express = require("express");
 var cors = require("cors");
-const stripe = require("stripe")(
-  "sk_test_51HWLYSI7H6155Bk9NWsrJOr54TLJcgi79EdUHWu3hR9MOfELWKSekum2UJr8AdCLKiZtWpLSQyHM1BXzFRlLtWLg00UtIAKYaz"
-);
+const stripe = require("stripe")(process.env.STRIPE);
 
 const app = express();
 app.use(cors());
