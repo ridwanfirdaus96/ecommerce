@@ -7,6 +7,10 @@ import cookieParser from "cookie-parser";
 import path from "path";
 dotenv.config();
 
+import cors from "cors";
+import Stripe from "stripe";
+const stripe = new Stripe(process.env.STRIPE);
+
 mongoose
   .connect(process.env.MONGO)
   .then(() => {
@@ -19,6 +23,7 @@ mongoose
 const __dirname = path.resolve();
 
 const app = express();
+app.use(cors());
 
 app.use(express.static(path.join(__dirname, "/client/dist")));
 
@@ -45,4 +50,46 @@ app.use((err, req, res, next) => {
     message,
     statusCode,
   });
+});
+
+app.post("/checkout", async (req, res) => {
+  /*
+    req.body.items
+    [
+        {
+            id: 1,
+            quantity: 3,
+        }
+    ]
+
+    stripe wants
+    [
+        {
+            price: 1,
+            quantity: 3
+        }
+    ]
+    */
+  console.log(req.body);
+  const items = req.body.items;
+  let lineItems = [];
+  items.forEach((item) => {
+    lineItems.push({
+      price: item.id,
+      quantity: item.quantity,
+    });
+  });
+
+  const session = await stripe.checkout.sessions.create({
+    line_items: lineItems,
+    mode: "payment",
+    success_url: "http://localhost:5173/success",
+    cancel_url: "http://localhost:5173/cancel",
+  });
+
+  res.send(
+    JSON.stringify({
+      url: session.url,
+    })
+  );
 });

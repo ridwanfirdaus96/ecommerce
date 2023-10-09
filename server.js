@@ -1,10 +1,9 @@
-// Coffee: price_1NvAJqI7H6155Bk9EBBk3uJm
-// Sunglasses: price_1NvAKuI7H6155Bk94MnzT6mh
-// Camera: price_1NvALmI7H6155Bk9mBScQ27W
+import dotenv from "dotenv";
+import express from "express";
 dotenv.config();
-const express = require("express");
-var cors = require("cors");
-const stripe = require("stripe")(process.env.STRIPE);
+import cors from "cors";
+import Stripe from "stripe";
+const stripe = new Stripe(process.env.STRIPE);
 
 const app = express();
 app.use(cors());
@@ -53,4 +52,4 @@ app.post("/checkout", async (req, res) => {
   );
 });
 
-app.listen(4000, () => console.log("listening on port 4000"));
+// app.listen(3000, () => console.log("listening on port 3000"));
