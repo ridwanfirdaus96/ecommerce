@@ -25,10 +25,10 @@ const __dirname = path.resolve();
 const app = express();
 app.use(cors());
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "/client/public")));
 
 app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, "public", "index.html"));
+  res.sendFile(path.join(__dirname, "client", "public", "index.html"));
 });
 
 app.use(express.json());
